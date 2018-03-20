@@ -1,0 +1,12 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+    <div>请填写报名信息</div>
+{% endblock header %}
+{% block content %}
+    <form action="{% url 'sign_up:new_actor' %}" method="post">
+    {% csrf_token %}
+    {#as_p是为了让django以段落格式渲染所有的表单元素，这是一种简洁的表示方式#}
+    {{ form.as_p }}
+    <button type="submit">报名</button>
+    </form>
+{% endblock content %}
