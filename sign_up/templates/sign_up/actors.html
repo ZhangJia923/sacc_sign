@@ -1,0 +1,20 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+{% endblock header %}
+{% block content %}
+    <p>报名名单如下:</p>
+    <ul>
+    {% for actor in actors %}
+        <li>
+            <a href="{% url 'sign_up:actor' actor.id %}" style="text-decoration:none">
+                {{ actor.team_name }}--{{ actor.member1 }}--{{ actor.member2 }}
+                <a href="{% url 'sign_up:delete_actor' actor.id %}" style="text-decoration:none">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除
+                </a>
+            </a>
+        </li>
+    {% empty %}
+        <li>当前还未报名</li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

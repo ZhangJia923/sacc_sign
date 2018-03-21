@@ -1,0 +1,10 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+    {% if is_added is True %}
+        <p>您已报名，不能重复报名！！！</p>
+    {% else %}
+        <p>您还未加入该队伍，不能退出！！！</p>
+    {% endif %}
+{% endblock header %}
+{% block content %}
+{% endblock content %}

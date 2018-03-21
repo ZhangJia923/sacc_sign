@@ -1,0 +1,12 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+    <p>欢迎报名参加计算机基础知识大赛</p>
+    <ul>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'sign_up:new_actor' %}">我要创建队伍</a></li>
+        <li><a href="{% url 'sign_up:actors' %}">我要参加队伍</a></li>
+    {% endif %}
+    </ul>
+{% endblock header %}
+{% block content %}
+{% endblock content %}

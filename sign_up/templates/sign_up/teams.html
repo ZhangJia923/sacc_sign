@@ -1,0 +1,18 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+{% endblock header %}
+{% block content %}
+    <ul>
+        {% for team in teams %}
+            {% if team.member1 and team.member2 %}
+                <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--<a>该队伍人数已满</a></li>
+            {% else %}
+                {% if actor_info.team_name is team.team_name %}
+                    <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--<a href="{% url 'sign_up:quit_team' team.id %}">退出该队伍</a></li>
+                {% else %}
+                    <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--<a href="{% url 'sign_up:add_team' team.id %}">加入该队伍</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock content %}

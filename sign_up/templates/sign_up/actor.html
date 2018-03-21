@@ -1,0 +1,25 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+{% endblock header %}
+{% block content %}
+    <ul>
+        <li>队伍名称:{{ actor.team_name }}</li>
+        <li>队长:{{ actor.owner.username }}</li>
+        <li>学院:{{ actor.owner.college }}</li>
+        <li>学号:{{ actor.owner.student_id }}</li>
+        <li>手机号:{{ actor.owner.tel }}</li>
+        <li>邮箱:{{ actor.owner.email }}</li>
+        <li>队员一:{{ actor.member1 }}</li>
+        <li>学院:{{ actor.college1 }}</li>
+        <li>学号:{{ actor.student_id1 }}</li>
+        <li>手机号:{{ actor.tel1 }}</li>
+        <li>邮箱:{{ actor.email1 }}</li>
+        <li>队员二:{{ actor.member2 }}</li>
+        <li>学院:{{ actor.college2 }}</li>
+        <li>学号:{{ actor.student_id2 }}</li>
+        <li>手机号:{{ actor.tel2 }}</li>
+        <li>邮箱:{{ actor.email2 }}</li>
+    </ul>
+    <a href="{% url 'sign_up:delete_actor' actor.id %}">删除</a>
+    <a href="{% url 'sign_up:edit_actor' actor.id %}">修改</a>
+{% endblock content %}
