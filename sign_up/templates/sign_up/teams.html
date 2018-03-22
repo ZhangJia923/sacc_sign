@@ -3,7 +3,7 @@
 {% endblock header %}
 {% block content %}
     <ul>
-        {% if actor_info is None %}
+        {% if teams is None %}
             <li>目前还没有创建的队伍，欢迎创建队伍--<a href="{% url 'sign_up:new_actor' %}">创建</a></li>
         {% else %}
             {% for team in teams %}

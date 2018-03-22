@@ -147,7 +147,10 @@ def quit_team(request,team_id):
 def teams(request):
     teams = Team_info.objects.all()
     if teams:
-        actor_info = Team_info.objects.get(owner=request.user)
+        try:
+            actor_info = Team_info.objects.get(owner=request.user)
+        except:
+            actor_info = None
         context = {'teams':teams,'actor_info':actor_info}
         return render(request,'sign_up/teams.html',context)
     else:
