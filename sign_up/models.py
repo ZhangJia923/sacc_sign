@@ -6,6 +6,12 @@ class Team_info(models.Model):
 
     team_name = models.CharField(max_length=50)
 
+    leader = models.CharField(max_length=50, default=None, blank=True)
+    leader_college = models.CharField(max_length=50, default=None, blank=True)
+    leader_tel = models.CharField(max_length=11, default=None, blank=True)
+    leader_id = models.CharField(max_length=9, default=None, blank=True)
+    leader_email = models.EmailField(default=None, blank=True)
+
     member1 = models.CharField(max_length=50,default=None,blank=True)
     college1 = models.CharField(max_length=50,default=None,blank=True)
     tel1 = models.CharField(max_length=11,default=None,blank=True)
@@ -17,6 +23,8 @@ class Team_info(models.Model):
     tel2 = models.CharField(max_length=11,default=None,blank=True)
     student_id2 = models.CharField(max_length=9,default=None,blank=True)
     email2 = models.EmailField(default=None,blank=True)
+
+    team_key = models.CharField(default=None,max_length=10)
 
     is_added = models.BooleanField(default=False)
 

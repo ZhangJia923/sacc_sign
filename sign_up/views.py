@@ -23,8 +23,14 @@ def new_actor(request):
         form = TeamInfoForm()
     else:
         form = TeamInfoForm(data=request.POST)
+        user = User.objects.filter()
         if form.is_valid():
             new_actor = form.save(commit=False) #commit=False指不要提交到数据库
+            new_actor.leader = user[1].username
+            new_actor.leader_college = user[1].college
+            new_actor.leader_tel = user[1].tel
+            new_actor.leader_id = user[1].student_id
+            new_actor.leader_email = user[1].email
             new_actor.owner = request.user
             new_actor.save()
             return HttpResponseRedirect(reverse('sign_up:index'))
@@ -88,6 +94,7 @@ def add_team(request,team_id):
     student_id = user[1].student_id
     email = user[1].email
 
+
     if team.member1 is '':
         Team_info.objects.filter(id=team_id).update(
             member1=member, college1=college, tel1=tel, student_id1=student_id, email1=email,is_added=True
@@ -139,6 +146,11 @@ def quit_team(request,team_id):
 @login_required
 def teams(request):
     teams = Team_info.objects.all()
-    actor_info = Team_info.objects.get(owner=request.user)
-    context = {'teams':teams,'actor_info':actor_info}
-    return render(request,'sign_up/teams.html',context)
+    if teams:
+        actor_info = Team_info.objects.get(owner=request.user)
+        context = {'teams':teams,'actor_info':actor_info}
+        return render(request,'sign_up/teams.html',context)
+    else:
+        actor_info = None
+        context = {'teams': teams, 'actor_info': actor_info}
+        return render(request, 'sign_up/teams.html', context)

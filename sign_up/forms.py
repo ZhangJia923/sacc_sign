@@ -7,7 +7,7 @@ class TeamInfoForm(forms.ModelForm):
 
         # 用来表示在前端使用form时显示哪些，就像本行表示，name，student_id，college显示而日期不显示
         fields = [
-            'team_name','member1','college1','tel1','student_id1','email1','member2','college2','tel2','student_id2','email2',
+            'team_name','member1','college1','tel1','student_id1','email1','member2','college2','tel2','student_id2','email2','team_key'
         ]
 
         # 用来表示表单前的介绍如不加则默认为数据库中字段的名字如name，student_id等等，使用label则前面则显示你设着的
@@ -22,7 +22,8 @@ class TeamInfoForm(forms.ModelForm):
             'student_id2': '请输入队员二的学号',
             'member2': '请输入队员二的姓名',
             'tel2': '请输入队员二的手机号',
-            'email2': '请输入队员二的邮箱'
+            'email2': '请输入队员二的邮箱',
+            'team_key':'请输入队伍密钥，队友可以根据该密钥添加到队伍'
         }
 
 
