@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import UserForm
+from sign_up.models import Actor_info
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -14,7 +15,10 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-
+            actor_info = Actor_info()
+            actor_info.actor = username
+            actor_info.is_added = False
+            actor_info.save()
             return HttpResponseRedirect(reverse('sign_up:index'))
         else:
             return HttpResponseRedirect(reverse('users:login'))
@@ -36,6 +40,11 @@ def register(request):
             # 且该信息在后面的登录过程中是需要的。当我们试图登陆一个从数据库中直接取出来不经过authenticate()的User对象会报错的！！
             authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
             login(request, authenticated_user)
+            actor_info = Actor_info()
+            actor_info.actor_name = new_user.username
+            actor_info.team_name = '无'
+            actor_info.is_added = False
+            actor_info.save()
             return HttpResponseRedirect(reverse('sign_up:index'))
 
     context = {'form':form}

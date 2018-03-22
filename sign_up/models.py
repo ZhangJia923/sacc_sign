@@ -26,7 +26,7 @@ class Team_info(models.Model):
 
     team_key = models.CharField(default=None,max_length=10)
 
-    is_added = models.BooleanField(default=False)
+    # is_added = models.BooleanField(default=False)
 
 
     date_added = models.DateField(auto_now_add=True)
@@ -34,4 +34,13 @@ class Team_info(models.Model):
 
     def __str__(self):
         return self.team_name
+
+class Actor_info(models.Model):
+    actor_name = models.CharField(max_length=100,default=None)
+    team_name = models.CharField(max_length=100,blank=True,default=None)
+    is_added = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.actor_name
+
 
