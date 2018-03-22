@@ -3,7 +3,7 @@
     <p>欢迎报名参加计算机基础知识大赛</p>
     <ul>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'sign_up:new_actor' %}">我要创建队伍</a></li>
+        <li><a href="{% url 'sign_up:new_team' %}">我要创建队伍</a></li>
         <li><a href="{% url 'sign_up:actors' %}">我要参加队伍</a></li>
     {% endif %}
     </ul>

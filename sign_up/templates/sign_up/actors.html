@@ -7,7 +7,7 @@
     {% for actor in actors %}
         <li>
             <a href="{% url 'sign_up:actor' actor.id %}" style="text-decoration:none">
-                {{ actor.team_name }}--{{ actor.member1 }}--{{ actor.member2 }}
+                {{ actor.team_name }}--{{ actor.leader }}
                 <a href="{% url 'sign_up:delete_actor' actor.id %}" style="text-decoration:none">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除
                 </a>

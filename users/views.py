@@ -15,10 +15,6 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            actor_info = Actor_info()
-            actor_info.actor = username
-            actor_info.is_added = False
-            actor_info.save()
             return HttpResponseRedirect(reverse('sign_up:index'))
         else:
             return HttpResponseRedirect(reverse('users:login'))

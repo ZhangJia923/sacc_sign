@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import TeamInfoForm
-from .models import Team_info
+from .models import Team_info,Actor_info
 from users.models import User
 from django.http import HttpResponseRedirect,Http404 #用户提交主题后我们将使用这个类将用户重新定向到网页topics
 from django.urls import reverse #该函数根据指定的URL模型确定URL，这意味着Django将在页面被请求时生成url
@@ -18,25 +18,27 @@ def actors(request):
 
 
 
-def new_actor(request):
+def new_team(request):
     if request.method != 'POST':
         form = TeamInfoForm()
     else:
         form = TeamInfoForm(data=request.POST)
-        user = User.objects.filter()
+        # form.team_name = request.POST['team_name']
+        # form.team_key = request.POST['team_key']
+        user = User.objects.get(username=request.user)
         if form.is_valid():
             new_actor = form.save(commit=False) #commit=False指不要提交到数据库
-            new_actor.leader = user[1].username
-            new_actor.leader_college = user[1].college
-            new_actor.leader_tel = user[1].tel
-            new_actor.leader_id = user[1].student_id
-            new_actor.leader_email = user[1].email
+            new_actor.leader = user.username
+            new_actor.leader_college = user.college
+            new_actor.leader_tel = user.tel
+            new_actor.leader_id = user.student_id
+            new_actor.leader_email = user.email
             new_actor.owner = request.user
             new_actor.save()
             return HttpResponseRedirect(reverse('sign_up:index'))
 
     context = {'form':form}
-    return render(request, 'sign_up/new_actor.html', context)
+    return render(request, 'sign_up/new_team.html', context)
 
 @login_required
 def actor(request,actor_id):
@@ -79,32 +81,37 @@ def add_team(request,team_id):
 
     team = Team_info.objects.get(id=team_id)
 
-    actor_info = Team_info(team_name=team.team_name,is_added=False)
+    actor_info = Actor_info.objects.get(actor_name=request.user)
+    # actor_info = Team_info(team_name=team.team_name,is_added=False)
     # Team_info.objects.create(team_name=actor_info.team_name,is_added=actor_info.is_added)
-    actor_info = Team_info.objects.get(owner=request.user)
+    # actor_info = Team_info.objects.get(owner=request.user)
 
-    user = User.objects.filter()
+    user = User.objects.get(username=request.user)
 
     if actor_info.is_added == True:
-        return render(request,'sign_up/is_added_error.html')
+        context = {'actor_info':actor_info}
+        return render(request,'sign_up/is_added_error.html',context)#############
 
-    member = user[1].username
-    college = user[1].college
-    tel = user[1].tel
-    student_id = user[1].student_id
-    email = user[1].email
+    member = user.username
+    college = user.college
+    tel = user.tel
+    student_id = user.student_id
+    email = user.email
 
 
     if team.member1 is '':
         Team_info.objects.filter(id=team_id).update(
-            member1=member, college1=college, tel1=tel, student_id1=student_id, email1=email,is_added=True
+            member1=member, college1=college, tel1=tel, student_id1=student_id, email1=email
         )
-        Team_info.objects.filter(owner=request.user).update(
+        Actor_info.objects.filter(actor_name=request.user).update(
             is_added=True,team_name=team.team_name
         )
     else:
         Team_info.objects.filter(id=team_id).update(
-            member2=member, college2=college, tel2=tel, student_id2=student_id, email2=email,is_added=True
+            member2=member, college2=college, tel2=tel, student_id2=student_id, email2=email
+        )
+        Actor_info.objects.filter(actor_name=request.user).update(
+            is_added=True, team_name=team.team_name
         )
 
     return HttpResponseRedirect(reverse('sign_up:index'))
@@ -113,31 +120,28 @@ def add_team(request,team_id):
 def quit_team(request,team_id):
     team = Team_info.objects.get(id=team_id)
 
-    actor_info = Team_info.objects.get(owner=request.user)
+    actor_info = Actor_info.objects.get(actor_name=request.user)
 
-    user = User.objects.filter()
+    user = User.objects.get(username=request.user)
 
     if actor_info.is_added == False:
         is_added = actor_info.is_added
         context = {'is_added':is_added}
         return render(request, 'sign_up/is_added_error.html',context)
 
-    member = user[1].username
-    college = user[1].college
-    tel = user[1].tel
-    student_id = user[1].student_id
-    email = user[1].email
-
-    if team.member1 is actor_info.owner.username:
+    if team.member1 == actor_info.actor_name:
         Team_info.objects.filter(id=team_id).update(
             member1='', college1='', tel1='', student_id1='', email1=''
         )
-        Team_info.objects.filter(owner=request.user).update(
-            is_added=True, team_name=team.team_name
+        Actor_info.objects.filter(actor_name=request.user).update(
+            is_added=False, team_name=''
         )
     else:
         Team_info.objects.filter(id=team_id).update(
             member2='', college2='', tel2='', student_id2='', email2=''
+        )
+        Actor_info.objects.filter(actor_name=request.user).update(
+            is_added=False, team_name=''
         )
 
     return HttpResponseRedirect(reverse('sign_up:index'))
@@ -148,7 +152,7 @@ def teams(request):
     teams = Team_info.objects.all()
     if teams:
         try:
-            actor_info = Team_info.objects.get(owner=request.user)
+            actor_info = Actor_info.objects.get(actor_name=request.user)
         except:
             actor_info = None
         context = {'teams':teams,'actor_info':actor_info}

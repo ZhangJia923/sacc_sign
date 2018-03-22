@@ -3,24 +3,24 @@
 {% endblock header %}
 {% block content %}
     <ul>
-        {% if teams is None %}
-            <li>目前还没有创建的队伍，欢迎创建队伍--<a href="{% url 'sign_up:new_actor' %}">创建</a></li>
-        {% else %}
+        {% if teams %}
             {% for team in teams %}
-                {% if team.member1 and team.member2 %}
-                    <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--<a>该队伍人数已满</a></li>
-                {% else %}
-                    {% if actor_info.team_name is team.team_name %}
-                        <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--<a href="{% url 'sign_up:quit_team' team.id %}">退出该队伍</a></li>
+{#                {% if team.member1 and team.member2 %}#}
+{#                    <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.leader }}--<a>该队伍人数已满</a></li>#}
+{#                {% else %}#}
+                    {% if actor_info.team_name == team.team_name %}
+                        <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.leader }}--<a href="{% url 'sign_up:quit_team' team.id %}">退出该队伍</a></li>
                     {% else %}
-                        <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.owner }}--
+                        <li>队伍名称：{{ team.team_name }}--队长姓名：{{ team.leader }}--
                             <a href="{% url 'sign_up:add_team' team.id %}" onclick="get_key()">加入该队伍</a>
-                            <input type="hidden" name="tem_key" id="team_key">
+                            <input type="hidden" name="team_key" id="team_key">
                             <button hidden type="submit" name="submit" id="submit"></button>
                         </li>
                     {% endif %}
-                {% endif %}
+{#                {% endif %}#}
             {% endfor %}
+        {% else %}
+                <li>目前还没有创建的队伍，欢迎创建队伍--<a href="{% url 'sign_up:new_team' %}">创建</a></li>
         {% endif %}
     </ul>
 {% endblock content %}
