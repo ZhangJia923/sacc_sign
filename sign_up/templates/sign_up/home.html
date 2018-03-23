@@ -4,7 +4,7 @@
     <ul>
     {% if user.is_authenticated %}
         <li><a href="{% url 'sign_up:new_team' %}">我要创建队伍</a></li>
-        <li><a href="{% url 'sign_up:actors' %}">我要参加队伍</a></li>
+        <li><a href="{% url 'sign_up:teams' %}">我要参加队伍</a></li>
     {% endif %}
     </ul>
 {% endblock header %}

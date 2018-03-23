@@ -1,7 +1,7 @@
 {% extends 'sign_up/index.html' %}
 {% block header %}
     {% if actor_info.is_added is True %}
-        <p>您已报名，不能重复报名！！！</p>
+        <p>您已报名，每人只能创建或加入一个队伍！！！</p>
     {% else %}
         <p>您还未加入该队伍，不能退出！！！</p>
     {% endif %}
