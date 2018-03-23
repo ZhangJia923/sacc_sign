@@ -4,7 +4,7 @@ from users.models import User
 # Create your models here.
 class Team_info(models.Model):
 
-    team_name = models.CharField(max_length=50)
+    team_name = models.CharField(max_length=50,unique=True)
 
     leader = models.CharField(max_length=50, default=None, blank=True)
     leader_college = models.CharField(max_length=50, default=None, blank=True)
@@ -24,7 +24,7 @@ class Team_info(models.Model):
     student_id2 = models.CharField(max_length=9,default=None,blank=True)
     email2 = models.EmailField(default=None,blank=True)
 
-    team_key = models.CharField(default=None,max_length=10)
+    team_key = models.CharField(default=None,max_length=10,unique=True)
 
     # is_added = models.BooleanField(default=False)
 

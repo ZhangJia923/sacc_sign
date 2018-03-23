@@ -2,29 +2,29 @@
 {% block header %}
 {% endblock header %}
 {% block content %}
-    <form action="{% url 'sign_up:edit_actor' actor.id %}" method="post">
+    <form action="{% url 'sign_up:edit_team' team.id %}" method="post">
         {% csrf_token %}
-        队伍名称：<input type="text" name="college" value="{{ actor.team_name }}">
+        队伍名称：<input type="text" name="college" value="{{ team.team_name }}">
         <br>
-        队员一：<input type="text" name="student_id" value="{{ actor.member1 }}">
+        队员一：<input type="text" name="student_id" value="{{ team.member1 }}">
         <br>
-        学院：<input type="text" name="name" value="{{ actor.college1 }}">
+        学院：<input type="text" name="name" value="{{ team.college1 }}">
         <br>
-        学号：<input type="text" name="tel" value="{{ actor.student_id1 }}">
+        学号：<input type="text" name="tel" value="{{ team.student_id1 }}">
         <br>
-        手机号：<input type="text" name="email" value="{{ actor.tel1 }}">
+        手机号：<input type="text" name="email" value="{{ team.tel1 }}">
         <br>
-        邮箱：<input type="text" name="email" value="{{ actor.email1 }}">
+        邮箱：<input type="text" name="email" value="{{ team.email1 }}">
         <br>
-        队员二：<input type="text" name="student_id" value="{{ actor.member2 }}">
+        队员二：<input type="text" name="student_id" value="{{ team.member2 }}">
         <br>
-        学院：<input type="text" name="name" value="{{ actor.college2 }}">
+        学院：<input type="text" name="name" value="{{ team.college2 }}">
         <br>
-        学号：<input type="text" name="tel" value="{{ actor.student_id2 }}">
+        学号：<input type="text" name="tel" value="{{ team.student_id2 }}">
         <br>
-        手机号：<input type="text" name="email" value="{{ actor.tel2 }}">
+        手机号：<input type="text" name="email" value="{{ team.tel2 }}">
         <br>
-        邮箱：<input type="text" name="email" value="{{ actor.email2 }}">
+        邮箱：<input type="text" name="email" value="{{ team.email2 }}">
         <br>
         <button type="submit">提交</button>
     </form>

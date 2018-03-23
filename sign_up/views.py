@@ -99,7 +99,7 @@ def edit_team(request,team_id):
         return HttpResponseRedirect(reverse('sign_up:my_team',args=[team_id]))
 
     context = {'team':team}
-    return render(request,'sign_up/edit_actor.html',context=context)
+    return render(request,'sign_up/edit_actor.html',context)
 
 @login_required
 def add_team(request,team_id):
