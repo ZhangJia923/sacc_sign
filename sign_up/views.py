@@ -12,7 +12,9 @@ def index(request):
 
 @login_required
 def actors(request):
-    actors = Team_info.objects.filter(owner=request.user).order_by('date_added')#filter(owner=request.user)指只显示本人创建的数据
+    lname = [str(request.user),str(request.user),str(request.user)]
+    query = "SELECT * FROM sign_up_team_info WHERE leader=%s OR member1=%s OR member2=%s"
+    actors = Team_info.objects.raw(query,params=lname)
     context = {'actors':actors}
     return render(request, 'sign_up/actors.html', context)
 
@@ -23,8 +25,6 @@ def new_team(request):
         form = TeamInfoForm()
     else:
         form = TeamInfoForm(data=request.POST)
-        # form.team_name = request.POST['team_name']
-        # form.team_key = request.POST['team_key']
         user = User.objects.get(username=request.user)
         if form.is_valid():
             new_actor = form.save(commit=False) #commit=False指不要提交到数据库
@@ -35,6 +35,9 @@ def new_team(request):
             new_actor.leader_email = user.email
             new_actor.owner = request.user
             new_actor.save()
+            Actor_info.objects.filter(actor_name=request.user).update(
+                is_added=True, team_name=new_actor.team_name
+            )
             return HttpResponseRedirect(reverse('sign_up:index'))
 
     context = {'form':form}
@@ -52,6 +55,15 @@ def actor(request,actor_id):
 def delete_actor(request,actor_id):
     actor = Team_info.objects.get(id=actor_id)
     if actor.owner == request.user:
+        Actor_info.objects.filter(actor_name=actor.member1).update(
+            is_added=False, team_name=''
+        )
+        Actor_info.objects.filter(actor_name=actor.member2).update(
+            is_added=False, team_name=''
+        )
+        Actor_info.objects.filter(actor_name=actor.leader).update(
+            is_added=False, team_name=''
+        )
         Team_info.objects.filter(id = actor_id).delete()
     else:
         raise Http404#无权删除时返回404
@@ -82,9 +94,6 @@ def add_team(request,team_id):
     team = Team_info.objects.get(id=team_id)
 
     actor_info = Actor_info.objects.get(actor_name=request.user)
-    # actor_info = Team_info(team_name=team.team_name,is_added=False)
-    # Team_info.objects.create(team_name=actor_info.team_name,is_added=actor_info.is_added)
-    # actor_info = Team_info.objects.get(owner=request.user)
 
     user = User.objects.get(username=request.user)
 
