@@ -31,7 +31,6 @@ def register(request):
         if form.is_valid():
             form.save()
             new_user = form.save()
-
             # 如果认证信息有效，会返回一个  User  对象。authenticate()会在User 对象上设置一个属性标识那种认证后端认证了该用户，
             # 且该信息在后面的登录过程中是需要的。当我们试图登陆一个从数据库中直接取出来不经过authenticate()的User对象会报错的！！
             authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])

@@ -1,15 +1,11 @@
 {% extends 'sign_up/index.html' %}
 {% block content %}
     {% for team in teams %}
-
         <div class="panel panel-default">
-            <!-- Default panel contents -->
             <div class="panel-heading">
                 <p style="float: left">队伍名称：{{ team.team_name }}</p>
                 <p style="text-align: right;margin-bottom: 0">队伍密钥{{ team.team_key }}</p>
             </div>
-
-            <!-- Table -->
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -33,23 +29,17 @@
                     {% if team.owner == user %}
                         <td>
                             <a href="{% url 'sign_up:delete_member' 1 %}">
-                                <button type="button" class="btn btn-danger">
-                                    解散队伍
-                                </button>
+                                <button type="button" class="btn btn-danger">解散队伍</button>
                             </a>
                         </td>
                     {% else %}
                         <td>
                             <a href="#">
-                                <button type="button" class="btn btn-default disabled">
-                                    解散队伍
-                                </button>
+                                <button type="button" class="btn btn-default disabled">解散队伍</button>
                             </a>
                         </td>
                     {% endif %}
                 </tr>
-
-
                 {% if team.member1 != None and team.member2 != '' %}
                     <tr>
                         <th scope="row">队员一</th>
@@ -61,32 +51,24 @@
                         {% if team.owner == user %}
                             <td>
                                 <a href="{% url 'sign_up:delete_member' 1 %}">
-                                    <button type="button" class="btn btn-danger">
-                                        删除队员
-                                    </button>
+                                    <button type="button" class="btn btn-danger">删除队员</button>
                                 </a>
                             </td>
                         {% elif team.member1 == user_name %}
                             <td>
                                 <a href="{% url 'sign_up:quit_team' team.id %}">
-                                    <button type="button" class="btn btn-danger">
-                                        退出队伍
-                                    </button>
+                                    <button type="button" class="btn btn-danger">退出队伍</button>
                                 </a>
                             </td>
                         {% else %}
                             <td>
                                 <a href="#">
-                                    <button type="button" class="btn btn-default disabled">
-                                        退出队伍
-                                    </button>
+                                    <button type="button" class="btn btn-default disabled">退出队伍</button>
                                 </a>
                             </td>
                         {% endif %}
                     </tr>
                 {% endif %}
-
-
                 {% if team.member2 != None and team.member2 != '' %}
                     <tr>
                         <th scope="row">队员二</th>
@@ -98,25 +80,19 @@
                         {% if team.owner == user %}
                             <td>
                                 <a href="{% url 'sign_up:delete_member' 2 %}">
-                                    <button type="button" class="btn btn-danger">
-                                        删除队员
-                                    </button>
+                                    <button type="button" class="btn btn-danger">删除队员</button>
                                 </a>
                             </td>
                         {% elif team.member2 == user_name %}
                             <td>
                                 <a href="{% url 'sign_up:quit_team' team.id %}">
-                                    <button type="button" class="btn btn-danger ">
-                                        退出队伍
-                                    </button>
+                                    <button type="button" class="btn btn-danger ">退出队伍</button>
                                 </a>
                             </td>
                         {% else %}
                             <td>
                                 <a href="#">
-                                    <button type="button" class="btn btn-default disabled">
-                                        退出队伍
-                                    </button>
+                                    <button type="button" class="btn btn-default disabled">退出队伍</button>
                                 </a>
                             </td>
                         {% endif %}
@@ -124,32 +100,22 @@
                 {% endif %}
                 </tbody>
             </table>
-
         </div>
         <div>
             {% if team.owner == user %}
-
                 <a href="{% url 'sign_up:edit_team' team.id %}">
                 <p style="text-align: right">
-                    <button type="button" class="btn btn-danger">
-                        修改
-                    </button>
+                    <button type="button" class="btn btn-danger">修改</button>
                 </p>
                 </a>
-
             {% else %}
-
                 <a href="#">
-                <p style="text-align: right">
-                    <button type="button" class="btn btn-default disabled">
-                        修改
-                    </button>
-                </p>
+                    <p style="text-align: right">
+                        <button type="button" class="btn btn-default disabled">修改</button>
+                    </p>
                 </a>
-
             {% endif %}
         </div>
-
     {% empty %}
         <p>你还没有创建队伍，请去创建</p>
         <a href="{% url 'sign_up:new_team' %}">创建队伍</a>

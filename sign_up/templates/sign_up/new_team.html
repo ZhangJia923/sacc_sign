@@ -3,12 +3,6 @@
 {% block content %}
     <div><h3>请填写队伍信息</h3></div>
     <form action="{% url 'sign_up:new_team' %}" method="post" class="new_team">
-        {% csrf_token %}
-        {#    as_p是为了让django以段落格式渲染所有的表单元素，这是一种简洁的表示方式#}
-        {#        队伍名称：<input type="text" name="team_name">#}
-        {#        <br>#}
-        {#        队伍密钥：<input type="text" name="team_key">#}
-        {#        <br>#}
         {% bootstrap_form new_team %}
         {% buttons %}
             <p style="text-align: right">
@@ -17,14 +11,4 @@
         {% endbuttons %}
     </form>
 {% endblock content %}
-
-
-{##}
-{#{% block content %}#}
-{#    <form action="{% url 'sign_up:new_team' %}" method="post">#}
-{#    {% csrf_token %}#}
-{#        队伍名称：<input type="text" name="team_name" >#}
-{#        队伍密钥：<input type="text" name="team_key">#}
-{#    <button type="submit">报名</button>#}
-{#    </form>#}
-{#{% endblock content %}#}
+t %}#}
