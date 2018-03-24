@@ -1,10 +1,37 @@
 {% extends 'sign_up/index.html' %}
-{% block header %}
-{% endblock header %}
+{% load bootstrap3 %}
 {% block content %}
+    <div><h3>请填写队伍密钥</h3></div>
     <form action="{% url 'sign_up:add_team' %}" method="post">
     {% csrf_token %}
-        <input type="text" name="team_key" placeholder="请输入队伍密钥">
-        <button type="submit">提交</button>
+        <div><h5>请输入队伍密钥</h5></div>
+        <input type="text" name="team_key" class="form-control" placeholder="请输入队伍密钥" aria-describedby="basic-addon1">
+        <br>
+        {% buttons %}
+            <p style="text-align: right">
+            <button type="submit" name="submit" class="btn btn-info">报名</button>
+            </p>
+        {% endbuttons %}
     </form>
 {% endblock content %}
+
+
+{#<div class="input-group">#}
+{#  <span class="input-group-addon" id="basic-addon1">@</span>#}
+{#  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">#}
+{#</div>#}
+
+{#{% block content %}#}
+{#    <form action="{% url 'sign_up:new_team' %}" method="post" class="new_team">#}
+{#        {% csrf_token %}#}
+        {#    as_p是为了让django以段落格式渲染所有的表单元素，这是一种简洁的表示方式#}
+        {#        队伍名称：<input type="text" name="team_name">#}
+        {#        <br>#}
+        {#        队伍密钥：<input type="text" name="team_key">#}
+        {#        <br>#}
+{#        {% bootstrap_form new_team %}#}
+{#        {% buttons %}#}
+{#            <button type="submit" name="submit" class="btn btn-info">报名</button>#}
+{#        {% endbuttons %}#}
+{#    </form>#}
+{#{% endblock content %}#}

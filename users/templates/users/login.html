@@ -1,4 +1,5 @@
 {% extends 'sign_up/index.html' %}
+{% load bootstrap3 %}
 {% block header %}
 {% endblock header %}
 {% block content %}
@@ -7,12 +8,28 @@
     {% endif %}
     <form method="post" action="{% url 'users:login' %}">
     {% csrf_token %}
-        用户名:<input type="text" name="username" placeholder="用户名">
+        学号:<input type="text" name="username" class="form-control" placeholder="用户名" aria-describedby="basic-addon1">
         <br>
-        密码:<input type="password" name="password" placeholder="密码">
+        密码:<input type="password" name="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
         {#本行代码用来表示当登录成功时网页重新定向到某个位置#}
         <input type="hidden" name="next" value="{% url 'sign_up:index' %}">
         <br>
-        <button type="submit">登录</button>
+        {% buttons %}
+            <button type="submit" name="submit" class="btn btn-primary">登录</button>
+        {% endbuttons %}
     </form>
 {% endblock content %}
+
+
+{##}
+{#{% block content %}#}
+{#    <form action="{% url 'sign_up:add_team' %}" method="post">#}
+{#    {% csrf_token %}#}
+{#        <div><h5>用户名:</h5></div>#}
+{#        <input type="text" name="team_key" class="form-control" placeholder="请输入队伍密钥" aria-describedby="basic-addon1">#}
+{#        <br>#}
+{#        {% buttons %}#}
+{#            <button type="submit" name="submit" class="btn btn-info">报名</button>#}
+{#        {% endbuttons %}#}
+{#    </form>#}
+{#{% endblock content %}#}

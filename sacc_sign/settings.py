@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #第三方应用
+    'bootstrap3',
+
+    #我的应用
     'users',
     'sign_up',
 ]
@@ -128,3 +133,8 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = '/users/login/'
+
+
+BOOTSTRAP3 = {
+    'include_jquery' : True,
+}

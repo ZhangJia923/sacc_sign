@@ -8,7 +8,12 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    return render(request, 'sign_up/home.html')
+    try:
+        actor_info = Actor_info.objects.get(actor_name=request.user)
+    except:
+        actor_info = None
+    context = {'actor_info':actor_info}
+    return render(request, 'sign_up/home.html',context)
 
 # @login_required
 # def actors(request):
@@ -18,41 +23,88 @@ def index(request):
 #     context = {'teams':teams}
 #     return render(request, 'sign_up/actors.html', context)
 
+# def new_team(request):
+#     if request.method != 'POST':
+#         form = TeamInfoForm()
+#     else:
+#         actor_info = Actor_info.objects.get(actor_name=request.user)
+#         if actor_info.is_added == True:
+#             context = {'actor_info':actor_info}
+#             return render(request,'sign_up/is_added_error.html',context)
+#         else:
+#             form = TeamInfoForm(data=request.POST)
+#             user = User.objects.get(username=request.user)
+#             if form.is_valid():
+#                 new_actor = form.save(commit=False) #commit=False指不要提交到数据库
+#                 new_actor.leader = user.username
+#                 new_actor.leader_college = user.college
+#                 new_actor.leader_tel = user.tel
+#                 new_actor.leader_id = user.student_id
+#                 new_actor.leader_email = user.email
+#                 new_actor.owner = request.user
+#                 new_actor.save()
+#                 Actor_info.objects.filter(actor_name=request.user).update(
+#                     is_added=True, team_name=new_actor.team_name
+#                 )
+#                 return HttpResponseRedirect(reverse('sign_up:index'))
+#
+#     context = {'form':form}
+#     return render(request, 'sign_up/new_team.html', context)
+
 def new_team(request):
     if request.method != 'POST':
-        form = TeamInfoForm()
+        new_team = TeamInfoForm()
     else:
+        new_team = TeamInfoForm(data=request.POST)
+        # new_team = Team_info()
+        # new_team.team_name = request.POST.get('team_name')
+        # new_team.team_key = request.POST.get('team_key')
+        # new_team.member1 = None
+        # new_team.student_id1 = None
+        # new_team.college1 = None
+        # new_team.email1 = None
+        # new_team.tel1 = None
+        # new_team.member2 = None
+        # new_team.student_id2 = None
+        # new_team.college2 = None
+        # new_team.email2 = None
+        # new_team.tel2 = None
+
+        user = User.objects.get(username=request.user)
+
         actor_info = Actor_info.objects.get(actor_name=request.user)
         if actor_info.is_added == True:
+
             context = {'actor_info':actor_info}
             return render(request,'sign_up/is_added_error.html',context)
-        else:
-            form = TeamInfoForm(data=request.POST)
-            user = User.objects.get(username=request.user)
-            if form.is_valid():
-                new_actor = form.save(commit=False) #commit=False指不要提交到数据库
-                new_actor.leader = user.username
-                new_actor.leader_college = user.college
-                new_actor.leader_tel = user.tel
-                new_actor.leader_id = user.student_id
-                new_actor.leader_email = user.email
-                new_actor.owner = request.user
-                new_actor.save()
-                Actor_info.objects.filter(actor_name=request.user).update(
-                    is_added=True, team_name=new_actor.team_name
-                )
-                return HttpResponseRedirect(reverse('sign_up:index'))
 
-    context = {'form':form}
+        if new_team.is_valid():
+            new_team = new_team.save(commit=False)
+
+            new_team.leader = user.username
+            new_team.leader_college = user.college
+            new_team.leader_tel = user.tel
+            new_team.leader_id = user.student_id
+            new_team.leader_email = user.email
+            new_team.owner = request.user
+            new_team.save()
+            Actor_info.objects.filter(actor_name=request.user).update(
+                is_added=True, team_name=new_team.team_name
+            )
+            return HttpResponseRedirect(reverse('sign_up:index'))
+
+    context = {'new_team': new_team}
     return render(request, 'sign_up/new_team.html', context)
+
 
 
 def my_team(request):
     lname = [str(request.user), str(request.user), str(request.user)]
     query = "SELECT * FROM sign_up_team_info WHERE leader=%s OR member1=%s OR member2=%s"
     teams = Team_info.objects.raw(query, params=lname)
-    context = {'teams': teams}
-    return render(request, 'sign_up/team.html', context)
+    user_name = request.user
+    context = {'teams': teams,'user_name':str(user_name)}
+    return render(request, 'sign_up/my_team.html', context)
 
 
 
@@ -62,22 +114,22 @@ def my_team(request):
 #     if str(team.owner) != str(request.user) and str(team.member1) != str(request.user) and str(team.member2) != str(request.user):
 #         raise Http404  #无权删除时返回404  #当访问不属于自己的信息时抛出404错误
 #     context = {'team':team}
-#     return render(request, 'sign_up/team.html', context)
+#     return render(request, 'sign_up/my_team.html', context)
 
 @login_required
-def delete_actor(request,actor_id):
-    actor = Team_info.objects.get(id=actor_id)
-    if actor.owner == request.user:
-        Actor_info.objects.filter(actor_name=actor.member1).update(
+def delete_team(request,team_id):
+    team = Team_info.objects.get(id=team_id)
+    if team.owner == request.user:
+        Actor_info.objects.filter(actor_name=team.member1).update(
             is_added=False, team_name=''
         )
-        Actor_info.objects.filter(actor_name=actor.member2).update(
+        Actor_info.objects.filter(actor_name=team.member2).update(
             is_added=False, team_name=''
         )
-        Actor_info.objects.filter(actor_name=actor.leader).update(
+        Actor_info.objects.filter(actor_name=team.leader).update(
             is_added=False, team_name=''
         )
-        Team_info.objects.filter(id = actor_id).delete()
+        Team_info.objects.filter(id = team_id).delete()
     else:
         return render(request,'sign_up/delete_error.html')
     return render(request,'sign_up/delete_actor.html')
@@ -88,55 +140,104 @@ def edit_team(request,team_id):
     if str(team.owner) != str(request.user):
         return render(request,'sign_up/edit_error.html')
     if request.method == 'POST':
-        college = request.POST.get('college')
-        student_id = request.POST.get('student_id')
-        name = request.POST.get('name')
-        tel = request.POST.get('tel')
-        email = request.POST.get('email')
+
+        team_name = request.POST.get('team_name')
+        team_key = request.POST.get('team_key')
+
+        leader_college = request.POST.get('leader_college')
+        leader_id = request.POST.get('leader_id')
+        leader = request.POST.get('leader')
+        leader_tel = request.POST.get('leader_tel')
+        leader_email = request.POST.get('leader_email')
+
+        college1 = request.POST.get('college1')
+        student_id1 = request.POST.get('student_id1')
+        member1 = request.POST.get('member1')
+        tel1 = request.POST.get('tel1')
+        email1 = request.POST.get('email1')
+
+
+
+        college2 = request.POST.get('college2')
+        student_id2 = request.POST.get('student_id2')
+        member2 = request.POST.get('member2')
+        tel2 = request.POST.get('tel2')
+        email2 = request.POST.get('email2')
+
         Team_info.objects.filter(id=team_id).update(
-            college=college,student_id=student_id,name=name,tel=tel,email=email
+            team_name= team_name,
+            team_key = team_key,
+
+            leader_college = leader_college,
+            leader_id = leader_id,
+            leader = leader,
+            leader_tel = leader_tel,
+            leader_email = leader_email,
+
+            college1 = college1,
+            student_id1 = student_id1,
+            member1 = member1,
+            tel1 = tel1,
+            email1 = email1,
+
+            college2 = college2,
+            student_id2 = student_id2,
+            member2 = member2,
+            tel2 = tel2,
+            email2 = email2,
         )
-        return HttpResponseRedirect(reverse('sign_up:my_team',args=[team_id]))
+        return HttpResponseRedirect(reverse('sign_up:my_team'))
 
     context = {'team':team}
     return render(request,'sign_up/edit_actor.html',context)
 
 @login_required
-def add_team(request,team_id):
+def add_team(request):
 
-    team = Team_info.objects.get(id=team_id)
+    if request.method == 'POST':
+        team_key = request.POST.get('team_key')
 
-    actor_info = Actor_info.objects.get(actor_name=request.user)
+        try:
+            team = Team_info.objects.get(team_key=team_key)
+        except:
+            return render(request,'sign_up/add_team_error.html')
 
-    user = User.objects.get(username=request.user)
+        actor_info = Actor_info.objects.get(actor_name=request.user)
 
-    if actor_info.is_added == True:
-        context = {'actor_info':actor_info}
-        return render(request,'sign_up/is_added_error.html',context)#############
+        user = User.objects.get(username=request.user)
 
-    member = user.username
-    college = user.college
-    tel = user.tel
-    student_id = user.student_id
-    email = user.email
+        if actor_info.is_added == True:
+            context = {'actor_info':actor_info}
+            return render(request,'sign_up/is_added_error.html',context)#############
+
+        member = user.username
+        college = user.college
+        tel = user.tel
+        student_id = user.student_id
+        email = user.email
 
 
-    if team.member1 is '':
-        Team_info.objects.filter(id=team_id).update(
-            member1=member, college1=college, tel1=tel, student_id1=student_id, email1=email
-        )
-        Actor_info.objects.filter(actor_name=request.user).update(
-            is_added=True,team_name=team.team_name
-        )
+        if team.member1 is None or team.member1 is '':
+            Team_info.objects.filter(team_key=team_key).update(
+                member1=member, college1=college, tel1=tel, student_id1=student_id, email1=email
+            )
+            Actor_info.objects.filter(actor_name=request.user).update(
+                is_added=True,team_name=team.team_name
+            )
+        elif team.member2 is None or team.member2 is '':
+            Team_info.objects.filter(team_key=team_key).update(
+                member2=member, college2=college, tel2=tel, student_id2=student_id, email2=email
+            )
+            Actor_info.objects.filter(actor_name=request.user).update(
+                is_added=True, team_name=team.team_name
+            )
+        else:
+            return render(request,'sign_up/add_team_error_1.html')
+
+        return HttpResponseRedirect(reverse('sign_up:index'))
+
     else:
-        Team_info.objects.filter(id=team_id).update(
-            member2=member, college2=college, tel2=tel, student_id2=student_id, email2=email
-        )
-        Actor_info.objects.filter(actor_name=request.user).update(
-            is_added=True, team_name=team.team_name
-        )
-
-    return HttpResponseRedirect(reverse('sign_up:index'))
+        return render(request,'sign_up/add_team.html')
 
 @login_required
 def quit_team(request,team_id):
@@ -170,16 +271,40 @@ def quit_team(request,team_id):
 
 
 @login_required
-def teams(request):
-    teams = Team_info.objects.all()
-    if teams:
-        try:
-            actor_info = Actor_info.objects.get(actor_name=request.user)
-        except:
-            actor_info = None
-        context = {'teams':teams,'actor_info':actor_info}
-        return render(request,'sign_up/teams.html',context)
+def delete_member(request,member_id):
+    team = Team_info.objects.get(owner=request.user)
+    if member_id == '1':
+        Team_info.objects.filter(owner=request.user).update(
+            member1='', college1='', tel1='', student_id1='', email1=''
+        )
+        Actor_info.objects.filter(actor_name=team.member1).update(
+            is_added=False, team_name=''
+        )
     else:
-        actor_info = None
-        context = {'teams': teams, 'actor_info': actor_info}
-        return render(request, 'sign_up/teams.html', context)
+        Team_info.objects.filter(owner=request.user).update(
+            member2='', college2='', tel2='', student_id2='', email2=''
+        )
+        Actor_info.objects.filter(actor_name=team.member2).update(
+            is_added=False, team_name=''
+        )
+    teams = Team_info.objects.filter(owner=request.user)
+
+    user = request.user
+
+    context = {'teams':teams,'user':user}
+    return render(request,'sign_up/my_team.html')
+
+# @login_required
+# def teams(request):
+#     teams = Team_info.objects.all()
+#     if teams:
+#         try:
+#             actor_info = Actor_info.objects.get(actor_name=request.user)
+#         except:
+#             actor_info = None
+#         context = {'teams':teams,'actor_info':actor_info}
+#         return render(request,'sign_up/teams.html',context)
+#     else:
+#         actor_info = None
+#         context = {'teams': teams, 'actor_info': actor_info}
+#         return render(request, 'sign_up/teams.html', context)
