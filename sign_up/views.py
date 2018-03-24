@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
 def index(request):
     try:
         actor_info = Actor_info.objects.get(actor_name=request.user)
