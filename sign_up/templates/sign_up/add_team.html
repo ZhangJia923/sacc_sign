@@ -1,0 +1,10 @@
+{% extends 'sign_up/index.html' %}
+{% block header %}
+{% endblock header %}
+{% block content %}
+    <form action="{% url 'sign_up:add_team' %}" method="post">
+    {% csrf_token %}
+        <input type="text" name="team_key" placeholder="请输入队伍密钥">
+        <button type="submit">提交</button>
+    </form>
+{% endblock content %}
