@@ -101,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/sacc_sign/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="967">
-              <caret line="87" column="29" lean-forward="false" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+              <caret line="87" column="25" lean-forward="false" selection-start-line="87" selection-start-column="25" selection-end-line="87" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -744,7 +744,7 @@
     <entry file="file://$PROJECT_DIR$/sacc_sign/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="967">
-          <caret line="87" column="29" lean-forward="false" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+          <caret line="87" column="25" lean-forward="false" selection-start-line="87" selection-start-column="25" selection-end-line="87" selection-end-column="25" />
           <folding />
         </state>
       </provider>
