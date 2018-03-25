@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     college = models.CharField(max_length=100)
-    student_id = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     tel = models.CharField(max_length=11)
 
     class Meta(AbstractUser.Meta):

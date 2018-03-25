@@ -36,7 +36,7 @@ def register(request):
             authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
             login(request, authenticated_user)
             actor_info = Actor_info()
-            actor_info.actor_name = new_user.username
+            actor_info.actor_id = new_user.username
             actor_info.team_name = '无'
             actor_info.is_added = False
             actor_info.save()
