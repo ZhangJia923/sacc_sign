@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
+from django.core.mail import send_mail
 
 # Create your views here.
 def login_view(request):
@@ -40,6 +41,12 @@ def register(request):
             actor_info.team_name = '无'
             actor_info.is_added = False
             actor_info.save()
+            user = request.user
+            # user.is_active = False
+            user.save()
+            email = [user.email]
+            print(email)
+            send_mail('测试一下', '这次能不能成功？？', 'zhjia97@163.com', email, fail_silently=False)
             return HttpResponseRedirect(reverse('sign_up:index'))
 
     context = {'form':form}

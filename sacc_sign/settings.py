@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'sacc_sign.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sign_up',
+        'NAME': 'sacc_sign',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
@@ -138,3 +138,10 @@ LOGIN_URL = '/users/login/'
 BOOTSTRAP3 = {
     'include_jquery' : True,
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'zhjia97@163.com'
+EMAIL_HOST_PASSWORD = 'asdf123'
+DEFAULT_FROM_EMAIL = 'zhjia97@163.com'
