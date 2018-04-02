@@ -138,7 +138,7 @@ LOGIN_URL = '/users/login/'
 BOOTSTRAP3 = {
     'include_jquery' : True,
 }
-
+STATIC_ROOT='static/'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 25
