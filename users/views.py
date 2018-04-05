@@ -21,17 +21,19 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = models.User.objects.get(username=username)
-        if user.is_active == False:
-            context = {"type":"active"}
-            return render(request,'users/active_error.html',context)
         user = authenticate(username=username, password=password)
         if user is not None:
+            user = models.User.objects.get(username=username)
+            if user.is_active == False:
+                context = {"type": "active"}
+                return render(request, 'users/active_error.html', context)
             login(request, user)
             return HttpResponseRedirect(reverse('sign_up:index'))
         else:
-            return HttpResponseRedirect(reverse('users:login'))
-    return render(request,'users/login.html')
+            context = {'error':'用户名或密码错误'}
+            return HttpResponseRedirect(reverse('users:login'),context)
+    context = {'error':None}
+    return render(request,'users/login.html',context)
 
 
 def register(request):
