@@ -30,10 +30,8 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse('sign_up:index'))
         else:
-            context = {'error':'用户名或密码错误'}
-            return HttpResponseRedirect(reverse('users:login'),context)
-    context = {'error':None}
-    return render(request,'users/login.html',context)
+            return HttpResponseRedirect(reverse('users:login'))
+    return render(request,'users/login.html')
 
 
 def register(request):
