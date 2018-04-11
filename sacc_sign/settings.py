@@ -25,7 +25,7 @@ SECRET_KEY = '3if3dm)^((^7ahr#b0my-#h=obli!%d*&b$&6)gns8%8h@(=i%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["sacc.yulige.top"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sacc_sign',
         'USER': 'root',
-        'PASSWORD': 'sacc_mysql',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -138,7 +138,7 @@ LOGIN_URL = '/users/login/'
 BOOTSTRAP3 = {
     'include_jquery' : True,
 }
-STATIC_ROOT='/var/www/html/sacc_sign/static/'
+STATIC_ROOT='static/'
 EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.163.com'
 # EMAIL_PORT = 25

@@ -192,17 +192,17 @@ def delete_member(request,member_id):
         Team_info.objects.filter(owner=request.user).update(
             member1='', college1='', tel1='', student_id1='', email1=''
         )
-        Actor_info.objects.filter(actor_id=team.student_id1).update(
+        Actor_info.objects.filter(actor_id=team.member1).update(
             is_added=False, team_name=''
         )
     else:
         Team_info.objects.filter(owner=request.user).update(
             member2='', college2='', tel2='', student_id2='', email2=''
         )
-        Actor_info.objects.filter(actor_id=team.student_id2).update(
+        Actor_info.objects.filter(actor_id=team.member2).update(
             is_added=False, team_name=''
         )
     teams = Team_info.objects.filter(owner=request.user)
     user = request.user
     context = {'teams':teams,'user':user}
-    return render(request,'sign_up/my_team.html',context)
+    return render(request,'sign_up/my_team.html')

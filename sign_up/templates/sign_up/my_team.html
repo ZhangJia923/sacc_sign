@@ -2,12 +2,11 @@
 {% block content %}
     {% for team in teams %}
         <div class="panel panel-default">
-            <div class="panel-heading  table-responsive">
+            <div class="panel-heading">
                 <p style="float: left">队伍名称：{{ team.team_name }}</p>
                 <p style="text-align: right;margin-bottom: 0">队伍密钥：{{ team.team_key }}</p>
             </div>
-            <div class="table-responsive">
-            <table class="table table-hover  table-bordered">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -29,7 +28,7 @@
                     <td>{{ team.leader_email }}</td>
                     {% if team.owner == user %}
                         <td>
-                            <a href="{% url 'sign_up:delete_team' team.id %}">
+                            <a href="{% url 'sign_up:delete_member' 1 %}">
                                 <button type="button" class="btn btn-danger">解散队伍</button>
                             </a>
                         </td>
@@ -101,7 +100,6 @@
                 {% endif %}
                 </tbody>
             </table>
-            </div>
         </div>
         <div>
             {% if team.owner == user %}
