@@ -66,7 +66,7 @@ def register(request):
             email_title = ""
             email_body = ""
             email_title = "注册激活链接"
-            email_body = str(user.username)+" 同学你好，欢迎参加本次计算机基础知识大赛，"+"请点击下面的链接激活你的账号:http://127.0.0.1:8000/users/active/{0}".format(code)
+            email_body = str(user.username)+" 同学你好，欢迎参加本次计算机基础知识大赛，"+"请点击下面的链接激活你的账号:http://sacc.yulige.top/users/active/{0}".format(code)
             # 发送邮件
             send_status = send_mail(email_title, email_body, DEFAULT_FROM_EMAIL, [email])
             context = {"type":"register"}
