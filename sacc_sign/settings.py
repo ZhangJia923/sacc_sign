@@ -25,7 +25,7 @@ SECRET_KEY = '3if3dm)^((^7ahr#b0my-#h=obli!%d*&b$&6)gns8%8h@(=i%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["sacc.yulige.top"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sacc_sign',
         'USER': 'root',
-        'PASSWORD': 'sacc_mysql',
+        'PASSWORD': '******',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -142,14 +142,14 @@ STATIC_ROOT='/var/www/html/sacc_sign/static/'
 EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.163.com'
 # EMAIL_PORT = 25
-# EMAIL_HOST_USER = 'zhjia97@163.com'
-# EMAIL_HOST_PASSWORD = 'asdf123'
-# DEFAULT_FROM_EMAIL = 'zhjia97@163.com'
+# EMAIL_HOST_USER = '******@163.com'
+# EMAIL_HOST_PASSWORD = '******'
+# DEFAULT_FROM_EMAIL = '******@163.com'
 
 
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '1569241790@qq.com'
-EMAIL_HOST_PASSWORD = 'vxsxhmklyuqlgdff'
-DEFAULT_FROM_EMAIL = '1569241790@qq.com'
+EMAIL_HOST_USER = '******@qq.com'
+EMAIL_HOST_PASSWORD = '******'
+DEFAULT_FROM_EMAIL = '******@qq.com'
 
